@@ -41,7 +41,7 @@ if(isset($_POST['proses_kembali'])) {
     echo "<div style='background: #ffe6e6; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--mahogany);'>
             <strong>Berhasil dikembalikan!</strong><br>
             Denda yang harus dibayar: <b>Rp " . number_format($denda, 0, ',', '.') . "</b>
-          </div>";
+        </div>";
 }
 ?>
 
@@ -55,10 +55,10 @@ if(isset($_POST['proses_kembali'])) {
         </tr>
         <?php
         $pinjaman = mysqli_query($conn, "SELECT Peminjaman.*, Buku.judul, Anggota.nama 
-                                         FROM Peminjaman 
-                                         JOIN Buku ON Peminjaman.id_buku = Buku.id_buku 
-                                         JOIN Anggota ON Peminjaman.id_anggota = Anggota.id_anggota 
-                                         WHERE Peminjaman.status = 'Dipinjam'");
+                                        FROM Peminjaman 
+                                        JOIN Buku ON Peminjaman.id_buku = Buku.id_buku 
+                                        JOIN Anggota ON Peminjaman.id_anggota = Anggota.id_anggota 
+                                        WHERE Peminjaman.status = 'Dipinjam'");
         
         while($p = mysqli_fetch_array($pinjaman)) {
             echo "<tr>
@@ -68,7 +68,7 @@ if(isset($_POST['proses_kembali'])) {
                 <td>
                     <form method='POST' style='box-shadow:none; background:none; padding:0; margin:0;'>
                         <input type='hidden' name='id_pinjam' value='{$p['id_pinjam']}'>
-                        <button type='submit' name='proses_kembali' style='padding: 5px 10px; font-size: 0.8em;'>Kembalikan</button>
+                        <button type='submit' name='proses_kembali' style='padding: 5px 10px; font-size: 0.8em;'>Pengembalian Diterima</button>
                     </form>
                 </td>
             </tr>";
