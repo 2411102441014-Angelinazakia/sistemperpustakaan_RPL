@@ -23,10 +23,17 @@ include 'config.php';
 <?php endif; ?>
 
 <?php
-if(isset($_POST['tambah']) && $_SESSION['role'] == 'Admin'){
-    $judul = $_POST['judul'];
-    $penulis = $_POST['penulis'];
-    mysqli_query($conn, "INSERT INTO Buku (judul, penulis, stok) VALUES ('$judul', '$penulis', 10)");
+if(isset($_POST['tambah']) && $_SESSION['role'] == 'Admin') {
+    $judul = clean($_POST['judul']);
+    $penulis = clean($_POST['penulis']);
+    
+    $q = mysqli_query($conn, "INSERT INTO Buku (judul, penulis, stok) VALUES ('$judul', '$penulis', 10)");
+    
+    if($q) {
+        echo "<p style='color: green;'>Buku berhasil ditambahkan ke database!</p>";
+    } else {
+        echo "<p style='color: red;'>Gagal menambah buku: " . mysqli_error($conn) . "</p>";
+    }
 }
 ?>
 
