@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Proteksi: Pastikan hanya Admin yang bisa menghapus data
+// Proteksi:  untuk memastikan hanya Admin yang bisa menghapus data
 if(!isset($_SESSION['login']) || $_SESSION['role'] !== 'Admin') {
     header("Location: login.php");
     exit;
