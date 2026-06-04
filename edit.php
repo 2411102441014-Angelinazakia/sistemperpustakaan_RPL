@@ -14,7 +14,19 @@ if(isset($_POST['update'])){
     $judul = clean($_POST['judul']);
     $penulis = clean($_POST['penulis']);
     
-    mysqli_query($conn, "UPDATE Buku SET judul='$judul', penulis='$penulis' WHERE id_buku='$id'");
+    $gambar = $_FILES['gambar']['name'];
+    $tmp_name = $_FILES['gambar']['tmp_name'];
+
+    if($gambar) {
+        if(!is_dir('uploads')) mkdir('uploads');
+        move_uploaded_file($tmp_name, "uploads/" . $gambar);
+        $gambar_db = clean($gambar);
+        $query_update = "UPDATE Buku SET judul='$judul', penulis='$penulis', gambar='$gambar_db' WHERE id_buku='$id'";
+    } else {
+        $query_update = "UPDATE Buku SET judul='$judul', penulis='$penulis' WHERE id_buku='$id'";
+    }
+
+    mysqli_query($conn, $query_update);
     header("Location: buku.php");
     exit;
 }
@@ -29,9 +41,15 @@ if(isset($_POST['update'])){
 <body>
 <div class="container">
     <h2>Edit Data Buku</h2>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         <input type="text" name="judul" value="<?php echo $row['judul']; ?>" required style="width: 100%; margin-bottom: 15px;">
         <input type="text" name="penulis" value="<?php echo $row['penulis']; ?>" required style="width: 100%; margin-bottom: 15px;">
+        
+        <div style="margin-bottom: 15px;">
+            <p><small>Ganti Gambar (Opsional):</small></p>
+            <input type="file" name="gambar" accept="image/*">
+        </div>
+
         <button type="submit" name="update" style="width: 100%;">Simpan Perubahan</button>
         <p style="text-align: center; margin-top: 15px;"><a href="buku.php" class="btn-back">Batal dan Kembali</a></p>
     </form>

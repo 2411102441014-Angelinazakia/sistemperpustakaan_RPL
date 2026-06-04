@@ -11,7 +11,16 @@ include 'config.php';
 
 if(isset($_GET['id'])) {
     $id = clean($_GET['id']);
-    mysqli_query($conn, "DELETE FROM Buku WHERE id_buku = '$id'");
+    $query = mysqli_query($conn, "DELETE FROM Buku WHERE id_buku = '$id'");
+
+    if (!$query) {
+        // Jika gagal karena buku sedang dipinjam atau ada di reservasi
+        echo "<script>
+                alert('Buku tidak bisa dihapus karena sedang dalam transaksi peminjaman atau reservasi!');
+                window.location='buku.php';
+            </script>";
+        exit;
+    }
 }
 
 header("Location: buku.php");

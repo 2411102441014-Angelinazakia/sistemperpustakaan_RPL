@@ -1,5 +1,5 @@
-// Versi Final - Fitur Login Selesai
 <?php
+// Versi Final - Fitur Login Selesai
 session_start();
 
 // Jika user sudah login, pindahkan langsung ke index.php

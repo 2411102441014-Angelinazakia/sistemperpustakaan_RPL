@@ -14,4 +14,3 @@ function clean($data) {
     // Gunakan trim untuk menghapus spasi yang tidak sengaja terketik di awal/akhir
     return mysqli_real_escape_string($conn, trim($data));
 }
-?>

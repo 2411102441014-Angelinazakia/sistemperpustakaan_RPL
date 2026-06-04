@@ -6,6 +6,7 @@ if(!isset($_SESSION['login'])) {
 }
 include 'config.php';
 
+// Ambil Statistik Sederhana
 $countBuku = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM Buku"))['total'];
 $countAnggota = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM Anggota"))['total'];
 ?>
@@ -94,6 +95,9 @@ $countAnggota = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total
     </div>
     <?php endif; ?>
 
+    <?php
+    // logika kelola buku dan kelola anggota hanya untuk admin, anggota hanya bisa melihat katalog dan histori pinjamannya
+    ?>
     <div class="dashboard-grid">
         <?php if($_SESSION['role'] == 'Admin') : ?>
         <!-- Card Kelola Buku -->

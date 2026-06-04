@@ -17,11 +17,19 @@ if(isset($_GET['id'])) {
     $data = mysqli_fetch_assoc($query_nama);
     $nama_anggota = $data['nama'];
 
-    // 2. Hapus akun di tabel User agar username bisa digunakan kembali
-    mysqli_query($conn, "DELETE FROM User WHERE username = '$nama_anggota' AND role = 'Anggota'");
+    // Gunakan pengecekan: Jika anggota sedang meminjam buku, penghapusan akan gagal di level DB
+    // Kita hapus dulu di tabel User, lalu di tabel Anggota
+    $deleteUser = mysqli_query($conn, "DELETE FROM User WHERE username = '$nama_anggota' AND role = 'Anggota'");
+    $deleteAnggota = mysqli_query($conn, "DELETE FROM Anggota WHERE id_anggota = '$id'");
 
-    // 3. Hapus data di tabel Anggota
-    mysqli_query($conn, "DELETE FROM Anggota WHERE id_anggota = '$id'");
+    if (!$deleteAnggota) {
+        // Jika gagal (biasanya karena masih ada data di tabel Peminjaman)
+        echo "<script>
+                alert('Gagal menghapus! Anggota ini mungkin masih memiliki riwayat peminjaman. Hapus riwayatnya terlebih dahulu.');
+                window.location='anggota.php';
+              </script>";
+        exit;
+    }
 }
 
 header("Location: anggota.php");

@@ -116,13 +116,16 @@ if(isset($_POST['pinjam'])) {
     $tgl_jatuh_tempo = date('Y-m-d', strtotime('+7 days'));
 
     // 1. Simpan transaksi
-    mysqli_query($conn, "INSERT INTO Peminjaman (id_buku, id_anggota, tgl_pinjam, tgl_jatuh_tempo, status) 
-                        VALUES ('$id_buku', '$id_anggota', '$tgl', '$tgl_jatuh_tempo', 'Dipinjam')");
+    $q_pinjam = mysqli_query($conn, "INSERT INTO Peminjaman (id_buku, id_anggota, tgl_pinjam, tgl_jatuh_tempo, status) 
+                                    VALUES ('$id_buku', '$id_anggota', '$tgl', '$tgl_jatuh_tempo', 'Dipinjam')");
 
-    // 2. Kurangi stok buku
-    mysqli_query($conn, "UPDATE Buku SET stok = stok - 1 WHERE id_buku = '$id_buku'");
-
-    echo "<p style='color: green;'>Buku berhasil dipinjam!</p>";
+    if($q_pinjam) {
+        // 2. Kurangi stok buku hanya jika insert berhasil
+        mysqli_query($conn, "UPDATE Buku SET stok = stok - 1 WHERE id_buku = '$id_buku'");
+        echo "<p style='color: green;'>Buku berhasil dipinjam!</p>";
+    } else {
+        echo "<p style='color: red;'>Gagal memproses peminjaman: " . mysqli_error($conn) . "</p>";
+    }
 }
 ?>
 
