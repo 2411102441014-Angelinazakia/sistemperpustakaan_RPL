@@ -14,7 +14,7 @@ include 'config.php';
 <div class="container">
     <h2>Transaksi Peminjaman Buku</h2>
 
-    <!-- Form Input Peminjaman -->
+    <!-- Form Input Peminjaman buku -->
     <form method="POST">
         <label>Pilih Buku:</label>
         <select name="id_buku" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
