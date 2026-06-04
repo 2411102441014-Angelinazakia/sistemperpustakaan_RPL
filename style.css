@@ -1,0 +1,190 @@
+/* Definisi Warna */
+:root {
+    --beige: #F5F5DC;
+    --mahogany: #4A0404; /* Mahogany Gelap */
+    --light-mahogany: #8B4513; /* Mahogany Terang untuk hover */
+    --white: #FFFFFF;
+}
+
+body {
+    background-color: var(--beige);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #444;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+h2 {
+    color: var(--mahogany);
+    border-bottom: 2px solid var(--mahogany);
+    padding-bottom: 10px;
+}
+
+/* Form Style */
+form {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+input {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Button */
+button {
+    background-color: var(--mahogany);
+    color: var(--white);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: var(--light-mahogany);
+}
+
+/* Tabel */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th {
+    background-color: var(--mahogany);
+    color: var(--white);
+    padding: 12px;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+/* Dashboard Layout */
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 240px);
+    gap: 40px; /* Memperlebar jarak antar kotak di Dashboard */
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.card {
+    background: var(--white);
+    padding: 20px 15px;
+    border-radius: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--mahogany);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(74, 4, 4, 0.2);
+    border: 2px solid var(--mahogany);
+    background-color: #fffaf5;
+}
+
+.card svg {
+    width: 50px; 
+    height: 50px;
+    margin-bottom: 10px;
+    fill: var(--mahogany);
+    transition: transform 0.3s ease;
+}
+
+.card:hover svg {
+    transform: scale(1.1);
+}
+
+.card h3 {
+    margin: 10px 0;
+    font-size: 1.2em;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card p {
+    font-size: 0.85em;
+    line-height: 1.4;
+}
+
+.stats-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+.stat-item {
+    font-size: 0.9em;
+    color: #777;
+}
+
+/* Tombol Aksi Aesthetic */
+.btn-edit, .btn-delete {
+    padding: 6px 15px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 0.8em;
+    font-weight: 600;
+    display: inline-block;
+    transition: all 0.3s ease;
+    margin: 2px;
+    color: white !important;
+}
+.btn-edit {
+    background-color: #f39c12; /* Warna Amber/Orange */
+}
+.btn-edit:hover {
+    background-color: #d35400;
+    transform: translateY(-2px);
+}
+.btn-delete {
+    background-color: #e74c3c; /* Warna Merah Modern */
+}
+.btn-delete:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+.btn-back {
+    padding: 8px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 0.9em;
+    font-weight: 600;
+    display: inline-block;
+    transition: all 0.3s ease;
+    background-color: #95a5a6; /* Silver Gray */
+    color: white !important;
+}
+.btn-back:hover {
+    background-color: #7f8c8d;
+    transform: translateY(-2px);
+}
