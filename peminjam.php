@@ -14,6 +14,75 @@ include 'config.php';
 <div class="container">
     <h2>Transaksi Peminjaman Buku</h2>
 
+    <!-- Bagian Verifikasi Reservasi -->
+    <h3>Permintaan Reservasi (Butuh Verifikasi)</h3>
+    <?php
+    // Logika Menyetujui Reservasi
+    if(isset($_POST['setujui_reservasi'])) {
+        $id_res = clean($_POST['id_reservasi']);
+        
+        // 1. Ambil data reservasi
+        $res_data = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM Reservasi WHERE id_reservasi = '$id_res'"));
+        $id_buku = $res_data['id_buku'];
+        $id_anggota = $res_data['id_anggota'];
+        $tgl_pinjam = date('Y-m-d');
+        $tgl_jatuh_tempo = date('Y-m-d', strtotime('+7 days'));
+
+        // 2. Masukkan ke tabel Peminjaman
+        $q1 = mysqli_query($conn, "INSERT INTO Peminjaman (id_buku, id_anggota, tgl_pinjam, tgl_jatuh_tempo, status) 
+                                   VALUES ('$id_buku', '$id_anggota', '$tgl_pinjam', '$tgl_jatuh_tempo', 'Dipinjam')");
+        
+        // 3. Kurangi stok buku
+        $q2 = mysqli_query($conn, "UPDATE Buku SET stok = stok - 1 WHERE id_buku = '$id_buku'");
+
+        // 4. Update status Reservasi menjadi 'Disetujui'
+        $q3 = mysqli_query($conn, "UPDATE Reservasi SET status = 'Disetujui' WHERE id_reservasi = '$id_res'");
+
+        if($q1 && $q2 && $q3) {
+            echo "<p style='color: green;'>Reservasi berhasil disetujui dan menjadi peminjaman!</p>";
+        }
+    }
+    ?>
+
+    <table border="1" style="margin-bottom: 30px;">
+        <tr style="background-color: #f2f2f2;">
+            <th>Nama Anggota</th>
+            <th>Judul Buku</th>
+            <th>Tgl Pengajuan</th>
+            <th>Aksi</th>
+        </tr>
+        <?php
+        $query_res = mysqli_query($conn, "SELECT Reservasi.*, Buku.judul, Anggota.nama 
+                                          FROM Reservasi 
+                                          JOIN Buku ON Reservasi.id_buku = Buku.id_buku 
+                                          JOIN Anggota ON Reservasi.id_anggota = Anggota.id_anggota 
+                                          WHERE Reservasi.status = 'Pending'");
+        
+        if(mysqli_num_rows($query_res) == 0) {
+            echo "<tr><td colspan='4' style='text-align:center;'>Tidak ada permintaan reservasi baru.</td></tr>";
+        }
+
+        while($r = mysqli_fetch_array($query_res)) {
+            echo "<tr>
+                <td>{$r['nama']}</td>
+                <td>{$r['judul']}</td>
+                <td>{$r['tgl_reservasi']}</td>
+                <td>
+                    <form method='POST' style='display:inline; background:none; padding:0; box-shadow:none;'>
+                        <input type='hidden' name='id_reservasi' value='{$r['id_reservasi']}'>
+                        <button type='submit' name='setujui_reservasi' 
+                                style='background-color: #27ae60; padding: 5px 10px; font-size: 0.8em;'>
+                                Setujui & Beri Buku
+                        </button>
+                    </form>
+                </td>
+            </tr>";
+        }
+        ?>
+    </table>
+
+    <h3>Input Peminjaman Manual</h3>
+
     <!-- Form Input Peminjaman buku -->
     <form method="POST">
         <label>Pilih Buku:</label>
