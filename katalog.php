@@ -20,7 +20,7 @@ include 'config.php';
 
     <table border="1">
         <tr>
-            <th>Gambar</th>
+            <th>Gambar & Harga</th>
             <th>Judul</th>
             <th>Penulis</th>
             <th>Stok</th>
@@ -35,7 +35,10 @@ include 'config.php';
             $status_stok = ($row['stok'] > 0) ? $row['stok'] : "<span style='color:red;'>Habis</span>";
             $img = !empty($row['gambar']) ? "uploads/".$row['gambar'] : "https://via.placeholder.com/50x70?text=No+Image";
             echo "<tr>
-                <td><img src='$img' width='50' style='border-radius: 4px;'></td>
+                <td>
+                    <img src='$img' width='50' style='border-radius: 4px;'><br>
+                    <small><b>Rp " . number_format($row['harga'], 0, ',', '.') . "</b></small>
+                </td>
                 <td>{$row['judul']}</td>
                 <td>{$row['penulis']}</td>
                 <td>$status_stok</td>

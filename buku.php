@@ -18,6 +18,7 @@ include 'config.php';
 <form method="POST" enctype="multipart/form-data">
     <input type="text" name="judul" placeholder="Judul Buku" required>
     <input type="text" name="penulis" placeholder="Penulis" required>
+    <input type="number" name="harga" placeholder="Harga sewa Buku" required>
     <input type="file" name="gambar" accept="image/*">
     <button type="submit" name="tambah">Tambah Buku</button>
 </form>
@@ -27,6 +28,7 @@ include 'config.php';
 if(isset($_POST['tambah']) && $_SESSION['role'] == 'Admin') {
     $judul = clean($_POST['judul']);
     $penulis = clean($_POST['penulis']);
+    $harga = clean($_POST['harga']);
     
     // Logika Upload Gambar
     $gambar = $_FILES['gambar']['name'];
@@ -37,7 +39,7 @@ if(isset($_POST['tambah']) && $_SESSION['role'] == 'Admin') {
     }
     
     $gambar_db = clean($gambar);
-    $q = mysqli_query($conn, "INSERT INTO Buku (judul, penulis, stok, gambar) VALUES ('$judul', '$penulis', 10, '$gambar_db')");
+    $q = mysqli_query($conn, "INSERT INTO Buku (judul, penulis, stok, gambar, harga) VALUES ('$judul', '$penulis', 10, '$gambar_db', '$harga')");
     
     if($q) {
         echo "<p style='color: green;'>Buku berhasil ditambahkan!</p>";
@@ -48,14 +50,17 @@ if(isset($_POST['tambah']) && $_SESSION['role'] == 'Admin') {
 ?>
 
 <table border="1">
-    <tr><th>ID</th><th>Gambar</th><th>Judul</th><th>Penulis</th><th>Aksi</th></tr>
+    <tr><th>ID</th><th>Gambar & Harga</th><th>Judul</th><th>Penulis</th><th>Aksi</th></tr>
     <?php
     $data = mysqli_query($conn, "SELECT * FROM Buku");
     while($row = mysqli_fetch_array($data)){
         $img = !empty($row['gambar']) ? "uploads/".$row['gambar'] : "https://via.placeholder.com/50x70?text=No+Image";
         echo "<tr>
             <td>{$row['id_buku']}</td>
-            <td><img src='$img' width='50' style='border-radius: 4px;'></td>
+            <td>
+                <img src='$img' width='50' style='border-radius: 4px;'><br>
+                <small><b>Rp " . number_format($row['harga'], 0, ',', '.') . "</b></small>
+            </td>
             <td>{$row['judul']}</td>
             <td>{$row['penulis']}</td>
             <td>";
